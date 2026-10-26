@@ -1,0 +1,19 @@
+{
+    "name":  "web-3d-smart-bajo",
+    "version":  "1.0.0",
+    "description":  "",
+    "main":  "index.js",
+    "keywords":  [
+
+                 ],
+    "type":  "commonjs",
+    "dependencies":  {
+                         "@fontsource/poppins":  "^5.3.0",
+                         "esbuild":  "^0.28.2",
+                         "three":  "^0.160.0"
+                     },
+    "scripts":  {
+                    "build":  "esbuild src/main.js --bundle --minify --format=iife --outfile=dist/app.js",
+                    "watch":  "esbuild src/main.js --bundle --format=iife --outfile=dist/app.js --watch"
+                }
+}

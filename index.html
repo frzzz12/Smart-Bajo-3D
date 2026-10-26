@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+  <title>Smart Bajo 3D — Hidroponik Berbasis AI-IoT untuk Gizi Mikro Masyarakat Bajo</title>
+  <meta name="description" content="Model 3D interaktif instalasi hidroponik Smart Bajo: sistem NFT berbasis AI-IoT untuk penguatan gizi mikro masyarakat pesisir Suku Bajo." />
+  <meta name="theme-color" content="#ffffff" />
+  <link rel="icon" type="image/png" href="favicon.png" />
+  <link rel="apple-touch-icon" href="assets/logo-emblem.png" />
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <canvas id="scene" aria-label="Model 3D instalasi hidroponik Smart Bajo"></canvas>
+  <div id="pins" aria-label="Titik komponen"></div>
+
+  <!-- Splash -->
+  <div id="loader" role="status">
+    <div class="loader-inner">
+      <img src="assets/logo-emblem.png" alt="Logo Smart Bajo" class="leaf-logo" />
+      <div class="loader-title">SMART <span>BAJO</span></div>
+      <div class="loader-bar"><i></i></div>
+      <div class="loader-sub">Memuat model 3D…</div>
+    </div>
+  </div>
+
+  <!-- Header -->
+  <header class="brand glass">
+    <img src="assets/logo-emblem.png" alt="Logo Smart Bajo" class="leaf-logo sm" />
+    <div>
+      <h1>SMART <span>BAJO</span></h1>
+      <p>Hidroponik Berbasis AI-IoT<br /><b>untuk Penguatan Gizi Mikro Masyarakat Bajo</b></p>
+    </div>
+  </header>
+
+  <!-- Daftar komponen -->
+  <nav id="compCard" class="comp-card glass" aria-label="Daftar komponen">
+    <div class="comp-head">
+      <span>Komponen</span>
+      <button id="btnList" class="mini" aria-label="Tampilkan atau sembunyikan daftar">
+        <svg viewBox="0 0 24 24"><path d="M6 9l6 6 6-6" /></svg>
+      </button>
+    </div>
+    <div id="componentList" class="comp-list"></div>
+  </nav>
+
+  <!-- Tombol atas kanan -->
+  <div class="top-actions">
+    <button id="btnInfo" class="pill glass" aria-label="Lihat infografis">
+      <svg viewBox="0 0 24 24"><rect x="4" y="3" width="16" height="18" rx="2" /><path d="M8 8h8M8 12h8M8 16h5" /></svg>
+      <span>Infografis</span>
+    </button>
+    <button id="btnFull" class="pill glass icon-only" aria-label="Layar penuh">
+      <svg viewBox="0 0 24 24"><path d="M4 9V4h5M20 9V4h-5M4 15v5h5M20 15v5h-5" /></svg>
+    </button>
+  </div>
+
+  <!-- Panel info -->
+  <aside id="panel" class="panel glass" aria-live="polite">
+    <button id="panelClose" class="panel-close" aria-label="Tutup panel">
+      <svg viewBox="0 0 24 24"><path d="M6 6l12 12M18 6L6 18" /></svg>
+    </button>
+    <div id="panelBody"></div>
+  </aside>
+
+  <!-- Hint -->
+  <div id="hint" class="hint glass">
+    <span><b>Geser</b> untuk memutar</span><i></i>
+    <span><b>Cubit</b> untuk zoom</span><i></i>
+    <span><b>Ketuk titik</b> untuk detail</span><i></i>
+    <span><b>Ketuk gerbang</b> untuk membuka</span>
+  </div>
+
+  <!-- Tur -->
+  <div id="tourBar" class="tour-bar glass">
+    <div class="tour-info">
+      <span class="tour-kicker">Tur Otomatis</span>
+      <span id="tourLabel" class="tour-label"></span>
+    </div>
+    <button id="tourStop" class="tour-stop">Hentikan</button>
+    <div class="tour-track"><div id="tourFill"></div></div>
+  </div>
+
+  <!-- Toolbar bawah -->
+  <div class="toolbar glass" role="toolbar" aria-label="Kontrol tampilan">
+    <button id="btnTour" class="tool">
+      <svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z" /></svg>
+      <span class="lbl">Tur Otomatis</span>
+    </button>
+    <button id="btnFlow" class="tool on">
+      <svg viewBox="0 0 24 24"><path d="M12 3c3.5 4.5 6 7.5 6 11a6 6 0 0 1-12 0c0-3.5 2.5-6.5 6-11z" /></svg>
+      <span class="lbl">Aliran Air</span>
+    </button>
+    <button id="btnPins" class="tool on">
+      <svg viewBox="0 0 24 24"><path d="M12 21s-6-5.2-6-10a6 6 0 1 1 12 0c0 4.8-6 10-6 10z" /><circle cx="12" cy="11" r="2.2" /></svg>
+      <span class="lbl">Penanda</span>
+    </button>
+    <button id="btnHome" class="tool">
+      <svg viewBox="0 0 24 24"><path d="M4 11l8-7 8 7M6 10v10h12V10" /></svg>
+      <span class="lbl">Tampilan Awal</span>
+    </button>
+  </div>
+
+  <!-- Modal infografis -->
+  <div id="infoModal" class="modal" role="dialog" aria-label="Infografis Smart Bajo">
+    <button id="modalClose" class="modal-close" aria-label="Tutup infografis">
+      <svg viewBox="0 0 24 24"><path d="M6 6l12 12M18 6L6 18" /></svg>
+    </button>
+    <div class="modal-scroll"><img src="assets/infografis-smart-bajo.png" alt="Infografis Smart Bajo" /></div>
+  </div>
+
+  <svg width="0" height="0" style="position:absolute" aria-hidden="true">
+    <symbol id="leaf" viewBox="0 0 64 64">
+      <path d="M32 58C32 36 26 22 8 14c-2 22 6 38 24 44z" fill="#2faa3f" />
+      <path d="M33 50c0-18 7-30 24-36 2 20-6 33-24 36z" fill="#8bd35a" />
+      <path d="M32 58V30" stroke="#fff" stroke-width="2.2" stroke-linecap="round" fill="none" opacity=".7" />
+    </symbol>
+  </svg>
+
+  <script src="dist/app.js"></script>
+</body>
+</html>
